@@ -1,3 +1,23 @@
+import sqlite3
+import os
+import streamlit as st
+
+# 1. 检查文件大小 (如果是 0 或 极小，说明文件根本没传上去)
+if os.path.exists("data.db"):
+    file_size = os.path.getsize("data.db")
+    st.write(f"数据库文件大小: {file_size} 字节")
+
+    # 2. 列出数据库里到底有哪些表
+    try:
+        conn = sqlite3.connect('data.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cursor.fetchall()
+        st.write("数据库里实际存在的表:", tables)
+        conn.close()
+    except Exception as e:
+        st.write(f"读取数据库表结构出错: {e}")
+        
 import os
 import streamlit as st
 import pandas as pd
