@@ -1,5 +1,13 @@
 import streamlit as st
 st.write("开始加载...") # 如果网页上能看到这句话，说明 Python 启动了，卡住的是数据加载
+import streamlit as st
+import sys
+
+# 1. 快速检查环境
+st.sidebar.write(f"当前版本: {sys.version}")
+
+# 2. 如果存在 data.db，不要让它在启动瞬间加载全量数据
+# 我们把数据库读取逻辑放到按钮点击之后，或者用 st.cache_data 封装好
 
 import os
 import streamlit as st
