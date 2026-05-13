@@ -1,14 +1,3 @@
-import streamlit as st
-st.write("开始加载...") # 如果网页上能看到这句话，说明 Python 启动了，卡住的是数据加载
-import streamlit as st
-import sys
-
-# 1. 快速检查环境
-st.sidebar.write(f"当前版本: {sys.version}")
-
-# 2. 如果存在 data.db，不要让它在启动瞬间加载全量数据
-# 我们把数据库读取逻辑放到按钮点击之后，或者用 st.cache_data 封装好
-
 import os
 import streamlit as st
 import pandas as pd
@@ -37,6 +26,12 @@ else:
 
 # 数据清洗与合并函数
 @st.cache_data(ttl=600)
+# 在读取数据的函数上加上装饰器
+@st.cache_data
+def load_data():
+    # 你的读取数据库代码
+    # 这样只有第一次加载时会读取，之后会直接从内存读取，速度极快！
+    return df
 def get_data(city_code):
     query_ent = "SELECT lat, lng, 企业名称, 行业代码, 城市代码, 招聘人数_clean FROM spatial_cluster_results"
     if city_code != "ALL":
