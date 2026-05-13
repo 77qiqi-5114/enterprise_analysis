@@ -28,10 +28,6 @@ else:
 @st.cache_data(ttl=600)
 # 在读取数据的函数上加上装饰器
 @st.cache_data
-def load_data():
-    # 你的读取数据库代码
-    # 这样只有第一次加载时会读取，之后会直接从内存读取，速度极快！
-    return df
 def get_data(city_code):
     query_ent = "SELECT lat, lng, 企业名称, 行业代码, 城市代码, 招聘人数_clean FROM spatial_cluster_results"
     if city_code != "ALL":
