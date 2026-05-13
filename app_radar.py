@@ -1,3 +1,6 @@
+import streamlit as st
+st.write("开始加载...") # 如果网页上能看到这句话，说明 Python 启动了，卡住的是数据加载
+
 import os
 import streamlit as st
 import pandas as pd
