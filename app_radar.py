@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import folium
@@ -11,7 +12,17 @@ import plotly.express as px
 # ==========================================
 st.set_page_config(page_title="城市产业与人才空间雷达系统", page_icon="📡", layout="wide")
 
-engine = create_engine('postgresql://postgres:postgres@localhost:5432/CityRadar')
+if os.path.exists("data.db"):
+    # 如果有数据库文件，优先使用 SQLite (这是云端部署的方案)
+    engine = create_engine("sqlite:///data.db")
+    st.sidebar.success("✅ 已连接至云端数据库文件")
+else:
+    # 如果没有数据库文件，尝试连接本地 PostgreSQL (这是你开发时的方案)
+    try:
+        engine = create_engine('postgresql://postgres:postgres@localhost:5432/CityRadar')
+    except Exception as e:
+        st.error(f"无法连接到本地数据库: {e}")
+        st.stop()
 
 # 数据清洗与合并函数
 @st.cache_data(ttl=600)
